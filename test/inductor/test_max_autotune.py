@@ -782,6 +782,7 @@ class TestMaxAutotune(TestCase):
             x = torch.mm(x, x)
             return torch.cat([x, y])
 
+        torch.compiler.reset()
         f_c = torch.compile(mode="max-autotune-no-cudagraphs")(f)
         inps = [
             torch.randn(32, 32, device=GPU_TYPE),
@@ -794,7 +795,7 @@ class TestMaxAutotune(TestCase):
         count = 2 if using_triton_mm else 1
         FileCheck().check(_get_func_call()).check_count(
             _get_kernel_launch(), count, exactly=True
-        ).run(code[0])
+        ).run("\n".join(code))
 
         def f(x, y):
             y = torch.cos(y)
