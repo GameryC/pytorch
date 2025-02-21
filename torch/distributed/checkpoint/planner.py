@@ -94,7 +94,7 @@ class ReadItem:
 
 @dataclass(frozen=True)
 class SavePlan:
-    items: list[WriteItem]
+    items: Optional[list[WriteItem]] = None
     storage_data: Any = None
     planner_data: Any = None
 

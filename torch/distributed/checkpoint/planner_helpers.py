@@ -115,10 +115,10 @@ def _merge_delta_local_plans(
     merged_plans = []
 
     for cached_plan, delta_plan in zip(cached_plans, delta_plans):
-        if delta_plan and len(delta_plan.items) > 0:
-            merged_plans.append(delta_plan)
-        else:
+        if delta_plan and delta_plan.items is None:
             merged_plans.append(cached_plan)
+        else:
+            merged_plans.append(delta_plan)
 
     return merged_plans
 
